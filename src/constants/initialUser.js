@@ -1,0 +1,37 @@
+export const initialStateUser = {
+  userAcc: {
+    isLogined: false,
+    ambassador: true,
+    billAddress: {
+      address: localStorage.getItem('savedAddress') ? localStorage.getItem('savedAddress') : '',
+      city: '',
+      postalCode: ''
+    },
+    cif: [],
+    code: '',
+    dificilidad: false,
+    email: '',
+    employee: '',
+    enabled: true,
+    extraPedidos: false,
+    group: '',
+    iban: [],
+    img: 'https://klike.net/uploads/posts/2023-01/1674373253_3-63.jpg',
+    lastVisit: Date.now(),
+    name: localStorage.getItem('savedName') ? localStorage.getItem('savedName') : '',
+    nif: [],
+    password: '',
+    phone: localStorage.getItem('savedPhone') ? localStorage.getItem('savedPhone') : '',
+    platform: "browser",
+    rate: 0,
+    responsible: '',
+    solvencia: false,
+    swift: [],
+    tags: [],
+    time: 0,
+    tipo: '',
+    tradeName: '',
+    type: 'user',
+    username: 'Browser Order',
+ }
+}
