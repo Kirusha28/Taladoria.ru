@@ -1,5 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import React from 'react'
+import HomePage from './pages/HomePage/HomePage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
+
 export const routerDeleverItems = createBrowserRouter([
   {
     path: '*',
@@ -10,15 +13,19 @@ export const routerDeleverItems = createBrowserRouter([
     element: <Navigate to={'/home'} />,
   },
   {
-    path: '/main',
-    element: <Navigate to={'/home'} />,
+    path: '/home',
+    element: <HomePage />,
   },
   {
     path: '/profile',
-    element: <Navigate to={'/home'} />,
+    element: <ProfilePage />,
   },
   {
     path: '/achievements',
+    element: <Navigate to={'/home'} />,
+  },
+  {
+    path: '/stats',
     element: <Navigate to={'/home'} />,
   },
   {
