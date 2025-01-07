@@ -2,6 +2,7 @@ import React from 'react'
 import './ProfilePage.scss'
 import MainHeader from '../../components/Headers/MainHeader/MainHeader'
 import SideBar from '../../components/SideBar/SideBar'
+import ProfileContent from './ProfileContent/ProfileContent'
 
 const ProfilePage = () => {
   return (
@@ -9,6 +10,7 @@ const ProfilePage = () => {
       <MainHeader />
       <main className='ProfilePage__content'>
         <SideBar />
+        <ProfileContent />
       </main>
     </>
   )
