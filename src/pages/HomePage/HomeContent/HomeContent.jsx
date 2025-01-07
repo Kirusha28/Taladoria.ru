@@ -3,6 +3,9 @@ import './HomeContent.scss'
 
 import ContentWrap from '../../../components/Wrappers/ContentWrap'
 import DisplayGrowth from '../../../components/Displays/DisplayGrowth/DisplayGrowth'
+import FilterBtn from '../../../components/Buttons/FilterBtn/FilterBtn'
+
+import listUsers from '../../../constants/listUsers'
 
 const HomeContent = () => {
   return (
@@ -30,9 +33,38 @@ const HomeContent = () => {
         </ContentWrap>
         
       </div>
-      <div>
-        <ContentWrap >
-
+      <div className='HomeContent__table'>
+        <ContentWrap sx={{ display: 'flex', flexDirection: 'column', gap: '20px'}}>
+          <div className='HomeContent__table__head'>
+            <h1>Топ Хордовцев</h1>
+            <FilterBtn />
+          </div>
+          <div className='HomeContent__table__headlines'>
+            <div className='HomeContent__table__headlines__column' style={{ flex: 10, justifyContent: 'flex-start'}}>Никнейм</div>
+            <div className='HomeContent__table__headlines__column'>Фильтр</div>
+            <div className='HomeContent__table__headlines__column'>Кол-во</div>
+            <div className='HomeContent__table__headlines__column'>+ за неделю</div>
+            <div className='HomeContent__table__headlines__column'>Роль</div>
+          </div>
+          <div className='HomeContent__table__list'>
+            {listUsers.map(user =>
+              <div className='HomeContent__table__list__item'>
+                <div className='HomeContent__table__list__item__column' style={{ flex: 10, justifyContent: 'flex-start'}}>
+                  <div className='img'><img src={user.img} alt="" width={'100%'} height={'100%'}/></div>
+                  <p>{user.nick}</p>
+                </div>
+                <div className='HomeContent__table__list__item__column'>{user.status}</div>
+                <div className='HomeContent__table__list__item__column'>{user.totalHour} ч</div>
+                <div className='HomeContent__table__list__item__column'>
+                <span>+</span>  {user.hoursPerWeek} ч</div>
+                <div className='HomeContent__table__list__item__column'>
+                  <div className='HomeContent__table__list__item__column__role'>
+                    {user.role}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </ContentWrap>
       </div>
     </section>

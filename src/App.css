@@ -89,7 +89,9 @@ button {
 
 body {
 	height: 100vh;
+	font-family: "Roboto", sans-serif;
 }
 #root {
 	height: 100%;
 }
+
