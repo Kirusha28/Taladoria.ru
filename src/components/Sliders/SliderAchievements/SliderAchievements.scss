@@ -1,0 +1,58 @@
+.SliderAchievements {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+
+  h2 {
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    color: #343434;
+  }
+
+  &__slider {
+    width: 100%;
+    height: fit-content;
+    gap: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__back {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      transition: .5s ease-in-out;
+      :hover {
+        scale: 1.1;
+      }
+    }
+    &__display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+
+      &__item {
+        width: 100px;
+        height: 100px;
+
+        background: #292d32;
+        border: 2px solid #eceef6;
+        border-radius: 6px;
+      }
+    }
+    &__next {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      transition: .5s ease-in-out;
+      :hover {
+        scale: 1.1;
+      }
+    }
+  }
+}
