@@ -1,0 +1,58 @@
+.SideBar {
+  min-width: 273px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+
+  box-shadow: 0 20px 50px 0 rgba(220, 224, 249, 0.5);
+  background: #f8dbdb;
+  border-right: 1px solid #e8e8e8;
+  padding-bottom: 10px;
+  
+
+  &__profile {
+    width: 100%;
+    padding-left: 35px;
+    padding-right: 20px;
+    padding-top: 20px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      height: fit-content;
+      width: 100%;
+
+      h1 {
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.01em;
+        color: #000;
+      }
+      p {
+        font-weight: 400;
+        font-size: 13px;
+        letter-spacing: 0.01em;
+        color: #a4a4a4;
+      }
+    }
+  }
+
+  &__navigation {
+    width: 100%;
+    height: fit-content;
+
+    margin-top: 19px;
+
+    display: flex;
+    flex-direction: column;
+  }
+}
