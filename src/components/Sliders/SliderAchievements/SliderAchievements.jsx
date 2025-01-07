@@ -20,26 +20,26 @@ const SliderAchievements = () => {
     <div className='SliderAchievements'>
       <h2>Последние достижения</h2>
       <div className='SliderAchievements__slider'>
-        <div className='SliderAchievements__slider__back' 
+        <button className='SliderAchievements__slider__back' 
           style={{opacity: silderPos > 0 ? 1 : 0.5}}
           onClick={() => {
             if (silderPos > 0) {setSilderPos(silderPos-1)}
           }}>
           <ArrowIcon height={'24px'}/>
-        </div>
+        </button>
         <div className='SliderAchievements__slider__display'>
           {achievements.slice(silderPos,silderPos+countSliderItems).map((item, index) => 
           <div className='SliderAchievements__slider__display__item' key={index}>
             {}
           </div>)}
         </div>
-        <div className='SliderAchievements__slider__next' 
+        <button className='SliderAchievements__slider__next' 
           style={{opacity: silderPos < achievements.length-countSliderItems ? 1 : 0.5}}
           onClick={() => {
             if (silderPos < achievements.length-countSliderItems) {setSilderPos(silderPos+1)}
           }}>
           <ArrowIcon height={'24px'} style={{transform: 'rotate(180deg)'}}/>
-        </div>
+        </button>
       </div>
     </div>
   )
