@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import React from 'react'
 import HomePage from './pages/HomePage/HomePage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
+import AchievementsPage from './pages/AchievementsPage/AchievementsPage'
 
 export const routerDeleverItems = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ export const routerDeleverItems = createBrowserRouter([
   },
   {
     path: '/achievements',
-    element: <Navigate to={'/home'} />,
+    element: <AchievementsPage />,
   },
   {
     path: '/stats',

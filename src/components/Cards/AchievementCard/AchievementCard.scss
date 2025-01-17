@@ -1,0 +1,91 @@
+.AchievementCard {
+  width: 170px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  
+
+  &__img {
+    position: absolute;
+    top: 0;
+    border-radius: 6px;
+    width: 143px;
+    height: 143px;
+    // box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.33);
+    background: #292d32;
+    z-index: 1;
+    overflow: hidden;
+    animation: SlideUp 1s ease-in-out;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+
+  &__content {
+    padding: 5px;
+    width: 100%;
+    height: 85%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border-radius: 6px;
+    animation: WANDH 1s ease-in-out;
+
+    @keyframes MarginOFF {
+      0% {
+        margin-top: 35%;
+      }
+      100% {
+        margin-top: 70%;
+      }
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 70%;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.01em;
+      text-align: center;
+      color: #343434;
+      animation: MarginOFF 1s ease-in-out;
+    }
+    p {
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.01em;
+      text-align: center;
+    }
+
+    &__date {
+      margin-top: auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      span {
+        font-weight: 600;
+        font-size: 8px;
+        letter-spacing: 0.01em;
+        text-align: center;
+        background: #ffffff70;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+    }
+  }
+}
