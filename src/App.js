@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './Animations.css'
 import { routerDeleverItems } from './routes';
 import { RouterProvider } from 'react-router-dom';
 
