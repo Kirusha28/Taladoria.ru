@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 const LoginPage = () => {
   const dispatch = useDispatch()
-  const API_BASE_URL = 'http://213.159.214.219/api'
+  const API_BASE_URL = 'http://213.159.214.219:4000/api'
 
   // Состояние для токена JWT и информации о пользователе
   const [token, setToken] = useState('');
