@@ -8,13 +8,15 @@ export const createAccountDataSlice = createSlice({
   name: 'accountData',
   initialState,
   reducers: {
-    setItems(state = initialState, action) {
-      state.userAcc.items = action.payload
+    setUser(state, action) {
+      return action.payload;
     },
   },
 })
 
 export const {
-  setItems,  
+  setUser,  
+
 } = createAccountDataSlice.actions
 export default createAccountDataSlice.reducer
+

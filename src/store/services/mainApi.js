@@ -1,53 +1,54 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import Cookies from 'js-cookie';
 
 export const mainApi = createApi({
   reducerPath: 'mainApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://' }),
-  endpoints: (builder) => ({
-    // findAll: builder.query({
-    //   query: () => ({
-    //     url: '/getProductsEnabled',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     method: 'GET',
-    //   }),
-    //   providesTags: [ { type: 'Product', id: 'LIST' } ],
-    //   keepUnusedDataFor: 36,
-    //   pollInterval: 36000,
-    // }),
-    // getProductById: builder.query({
-    //   query: (id) => ({
-    //     url: `/getProductsAdmin/${id}`,
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     method: 'GET',
-    //   }),
-    // }),
-    
-    // createNewOrder: builder.mutation({
-    //   query: (body) =>  ({
-    //     url: './createOrderAdmin',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     method: 'POST',
-    //     body
-    //   })
-    // }),
-    // createNewOrderBrowser: builder.mutation({
-    //   query: (body) =>  ({
-    //     url: './createOrderAdminBrowser',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     method: 'PUT',
-    //     body
-    //   })
-    // }),
-    
-  }),
-})
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:4000/api', // Ваш базовый URL
+    prepareHeaders: (headers) => {
+      // Извлекаем токен из кук при каждом запросе
+      const token = Cookies.get('token');
 
+      // Если токен есть, добавляем его в заголовки
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+
+      return headers;
+    },
+  }),
+  tagTypes: ['Product', 'User'], // Типы тегов для автоматического обновления данных
+  endpoints: (builder) => ({
+    // Пример запроса для получения данных пользователя (наш /me)
+    getMe: builder.query({
+      query: () => '/auth/me',
+      providesTags: ['User'],
+    }),
+
+    discordLogin: builder.query({
+      query: (code) => `/auth/discord/callback?code=${code}`,
+    }),
+
+    //Global
+    getTotalMinutes: builder.query({
+      query: (code) => `/global/getTotalMinutes`,
+    }),
+    getTotalUsersCount: builder.query({
+      query: (code) => `/global/getTotalUsersCount`,
+    }),
+    getTotalAchievements: builder.query({
+      query: (code) => `/global/getTotalAchievements`,
+    }),
+    getTotalOnline: builder.query({
+      query: (code) => `/global/getTotalOnline`,
+    }),
+    getUserWithAchievements: builder.query({
+      query: (user_id) => `/users/getUserWithAchievements?user_id=${user_id}`,
+    }),
+  }),
+});
+
+// Экспортируем хуки, которые генерируются автоматически
+export const { 
+  useGetMeQuery, 
+} = mainApi;

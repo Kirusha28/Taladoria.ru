@@ -25,18 +25,18 @@
   
 }
 .active {
-  background: #F8B9B9;
+  background: #FF720D;
 
   .SideBarBtnUI__indicator  {
-    background: #de3030;      
+    background: #fff;      
   }
   p {
-    color: #DE3939!important;
+    color: #fff!important;
     font-weight: 700;
   }
   svg {
     path {
-      fill: #DE3939;
+      fill: #fff;
     }
   }
 }

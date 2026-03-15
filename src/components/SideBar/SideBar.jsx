@@ -7,18 +7,20 @@ import SideBarBtnUI from '../Buttons/SideBarBtnUI/SideBarBtnUI'
 import sidebartabs from '../../constants/sidebartabs'
 
 import { ReactComponent as SettingsIcon } from '../../assets/svg/sidebar/settingsIcon.svg'
+import { useSelector } from 'react-redux'
 
 
 const SideBar = () => {
   const location = window.location.pathname
+  const user = useSelector(state => state.accountData)
 
   return (
     <aside className='SideBar'>
       <div className='SideBar__profile'>
-          <img src="https://i.imgur.com/RpZ6RZ0.png" alt="" width={'52px'} height={'52px'}/>
+          <img src={user?.avatar} alt="" width={'52px'} height={'52px'}/>
         <div className='SideBar__profile__info'>
-          <h1>Twist_Oli</h1>
-          <p>@twist_oli</p>
+          <h1>{user?.nickname}</h1>
+          <p>@{user.username}</p>
         </div>
         <OtherBtn />   
       </div>
@@ -26,7 +28,7 @@ const SideBar = () => {
         {sidebartabs.map((tab, index) => 
         <SideBarBtnUI key={index} path={tab.path} active={location === tab.path ? 'active' : ''}>
           <div style={{ width: '29px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {tab.icon && <tab.icon width={'25px'} height={'25px'} color='#DE3939'/>}
+            {tab.icon && <tab.icon width={'25px'} height={'25px'} color='#fff'/>}
           </div>
           <p>{tab.title}</p>
         </SideBarBtnUI>)}
