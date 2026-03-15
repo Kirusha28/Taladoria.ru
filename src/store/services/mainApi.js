@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 export const mainApi = createApi({
   reducerPath: 'mainApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4000/api', // Ваш базовый URL
+    baseUrl: 'http://213.159.214.219:4000/api', // Ваш базовый URL
     prepareHeaders: (headers) => {
       // Извлекаем токен из кук при каждом запросе
       const token = Cookies.get('token');

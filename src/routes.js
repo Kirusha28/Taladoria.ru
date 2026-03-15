@@ -44,7 +44,7 @@ export const routerDeleverItems = createBrowserRouter([
     element: <Navigate to={'/home'} />,
   },
   {
-    path: '/api/auth/discord/callback', 
+    path: '/auth/discord/callback', 
     element: <DiscordCallback />,
   },
 ]);
