@@ -7,10 +7,10 @@ import LoginPage from './pages/LoginPage/LoginPage'
 import DiscordCallback from './components/DiscordCallback/DiscordCallback'
 
 export const routerDeleverItems = createBrowserRouter([
-  // {
-  //   path: '*',
-  //   element: <Navigate to={'/login'} />,
-  // },
+  {
+    path: '*',
+    element: <Navigate to={'/login'} />,
+  },
   {
     path: '/login',
     element: <LoginPage />,
