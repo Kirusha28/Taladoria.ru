@@ -3,15 +3,17 @@ import React from 'react'
 import HomePage from './pages/HomePage/HomePage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 import AchievementsPage from './pages/AchievementsPage/AchievementsPage'
+import LoginPage from './pages/LoginPage/LoginPage'
+import DiscordCallback from './components/DiscordCallback/DiscordCallback'
 
 export const routerDeleverItems = createBrowserRouter([
-  {
-    path: '*',
-    element: <Navigate to={'/home'} />,
-  },
+  // {
+  //   path: '*',
+  //   element: <Navigate to={'/login'} />,
+  // },
   {
     path: '/login',
-    element: <Navigate to={'/home'} />,
+    element: <LoginPage />,
   },
   {
     path: '/home',
@@ -40,5 +42,9 @@ export const routerDeleverItems = createBrowserRouter([
   {
     path: '/settings',
     element: <Navigate to={'/home'} />,
+  },
+  {
+    path: '/api/auth/discord/callback', 
+    element: <DiscordCallback />,
   },
 ]);
