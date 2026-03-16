@@ -8,7 +8,7 @@ const LoginPage = () => {
   const dispatch = useDispatch()
 
   const token = Cookies.get('token');
-  const { data: userProfile, error, isLoading, refetch } = mainApi.useGetUserProfileQuery(undefined, {
+  const { data: userProfile, error, isLoading, refetch } = mainApi.useGetUserProfileQuery(token, {
     skip: !token,
   });
 
@@ -18,8 +18,9 @@ const LoginPage = () => {
   // 2. Обработка кода из URL (после редиректа Discord)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log('urlParams', urlParams)
     const codeFromUrl = urlParams.get('code');
-
+    console.log('codeFromUrl', codeFromUrl)
     if (codeFromUrl) {
       // Здесь ваша логика: либо вы записываете code как токен (как в вашем примере),
       // либо отправляете этот code на бэк, чтобы получить реальный JWT.

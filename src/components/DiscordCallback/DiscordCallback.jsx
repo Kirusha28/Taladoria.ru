@@ -22,8 +22,9 @@ const DiscordCallback = () => {
         if (data) {
             if (data.token) {
                 // Сохраняем токен в куки
-                Cookies.set('token', data.token, { expires: 7, secure: true });
-                
+                // console.log(data.token)
+                Cookies.set('token', data.token, { expires: 7, secure: false });
+                // console.log(Cookies.get('token'))
                 // Обновляем данные пользователя в Redux
                 dispatch(setUser(data.user));
                 
