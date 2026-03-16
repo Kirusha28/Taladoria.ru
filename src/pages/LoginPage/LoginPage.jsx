@@ -1,44 +1,86 @@
 import React, { useEffect, useState } from 'react'
 import './LoginPage.scss'
-import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux'
-import { mainApi } from './../../store/services/mainApi';
 
 const LoginPage = () => {
   const dispatch = useDispatch()
+  const API_BASE_URL = 'http://213.159.214.219:4000/api'
 
-  const token = Cookies.get('token');
-  const { data: userProfile, error, isLoading, refetch } = mainApi.useGetUserProfileQuery(undefined, {
-    skip: !token,
-  });
+  // Состояние для токена JWT и информации о пользователе
+  const [token, setToken] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
 
-  const API_BASE_URL = import.meta.env ? import.meta.env.VITE_API_URL : process.env.REACT_APP_API_URL;
-
-
-  // 2. Обработка кода из URL (после редиректа Discord)
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const codeFromUrl = urlParams.get('code');
-
-    if (codeFromUrl) {
-      // Здесь ваша логика: либо вы записываете code как токен (как в вашем примере),
-      // либо отправляете этот code на бэк, чтобы получить реальный JWT.
-      // Если ваш бэк сразу шлет JWT в параметре code:
-      Cookies.set('token', codeFromUrl, { expires: 7 });
-      
-      // Очищаем URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-      
-      // Заставляем RTK Query обновить данные профиля
-      refetch();
-    }
-  }, [refetch]);
+  // Состояния для сообщений об успехе/ошибке
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   // Функция для очистки сообщений
-  const handleLogout = () => {
-    Cookies.remove('token');
-    window.location.reload(); // Простой способ сбросить все стейты
+  const clearMessages = () => {
+    setMessage('');
+    setError('');
   };
+
+  // Обработчик выхода из системы (очистка токена и профиля)
+  const handleLogout = () => {
+    setToken('');
+    setUserProfile(null);
+    clearMessages();
+    setMessage('Вы вышли из системы.');
+  };
+
+  const fetchUserProfile = async (authToken) => {
+    clearMessages();
+    if (!authToken) {
+      setError('Токен отсутствует. Невозможно получить профиль.');
+      return;
+    }
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/profile`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setUserProfile(data);
+        setMessage('Профиль пользователя успешно получен.');
+      } else {
+        setError(data.message || 'Ошибка получения профиля');
+        setUserProfile(null);
+      }
+    } catch (err) {
+      setError('Ошибка сети при получении профиля.');
+      console.error('Ошибка получения профиля:', err);
+      setUserProfile(null);
+    }
+  };
+
+  // Эффект для обработки токена из URL (после OAuth)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get('code');
+    const authError = urlParams.get('auth_error'); // Проверяем на ошибку OAuth
+
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+      setMessage('Токен получен из OAuth-перенаправления.');
+      fetchUserProfile(tokenFromUrl); // Автоматически получаем профиль
+      // Очищаем URL, чтобы токен не оставался видимым
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (authError) {
+      setError('OAuth аутентификация не удалась. Пожалуйста, попробуйте еще раз.');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+  // Пустой массив зависимостей, чтобы эффект запускался только один раз при монтировании
+
+  useEffect(() => {
+    if (token && !userProfile) {
+      fetchUserProfile(token);
+    }
+  }, [token, userProfile]);
 
   return (  
     <main className='LoginPage'>
@@ -51,6 +93,15 @@ const LoginPage = () => {
                 {/* {token} */}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
+                {/* Кнопка "Получить профиль" теперь не нужна, так как профиль автоматически загружается */}
+                {/* Но если хотите сохранить ее для ручного обновления:
+                <button
+                  onClick={() => fetchUserProfile(token)}
+                  className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 ease-in-out transform hover:scale-105"
+                >
+                  Обновить профиль пользователя
+                </button>
+                */}
                 <button
                   onClick={handleLogout}
                   className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 ease-in-out transform hover:scale-105"

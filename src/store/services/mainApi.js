@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 
-const BASE_URL = import.meta.env ? import.meta.env.VITE_API_URL : process.env.REACT_APP_API_URL;
-
 export const mainApi = createApi({
   reducerPath: 'mainApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL, // Ваш базовый URL
+    baseUrl: 'http://213.159.214.219:4000/api', // Ваш базовый URL
     prepareHeaders: (headers) => {
       // Извлекаем токен из кук при каждом запросе
       const token = Cookies.get('token');
@@ -30,12 +28,6 @@ export const mainApi = createApi({
     discordLogin: builder.query({
       query: (code) => `/auth/discord/callback?code=${code}`,
     }),
-
-    getUserProfile: builder.query({
-      query: () => '/users/profile',
-      providesTags: ['User'],
-    }),
-
 
     //Global
     getTotalMinutes: builder.query({
