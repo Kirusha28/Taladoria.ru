@@ -23,8 +23,8 @@ const sidebartabs = [
     icon: AchievementsIcon,
   },
   {
-    title: 'Статистика',
-    path: '/stats',
+    title: 'Совиное древо',
+    path: '/tree',
     icon: StatsIcon,
   },
   {

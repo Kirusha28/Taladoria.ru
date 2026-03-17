@@ -5,6 +5,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage'
 import AchievementsPage from './pages/AchievementsPage/AchievementsPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import DiscordCallback from './components/DiscordCallback/DiscordCallback'
+import TreeOwlPage from './pages/TreeOwlPage/TreeOwlPage'
 
 export const routerDeleverItems = createBrowserRouter([
   {
@@ -28,8 +29,8 @@ export const routerDeleverItems = createBrowserRouter([
     element: <AchievementsPage />,
   },
   {
-    path: '/stats',
-    element: <Navigate to={'/home'} />,
+    path: '/tree',
+    element: <TreeOwlPage />,
   },
   {
     path: '/myСharacters',

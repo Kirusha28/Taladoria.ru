@@ -11,7 +11,7 @@ const AchievementsContent = () => {
 
   return (
     <section className='AchievementsContent'>
-      <header className='AchievementsContent__headeer'>
+      <header className='AchievementsContent__header'>
         <FilterBtn />
         <Switch
           checked={cardMode === 'minimal'}
