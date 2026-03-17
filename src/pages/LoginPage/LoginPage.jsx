@@ -35,41 +35,10 @@ const LoginPage = () => {
     }
   }, [refetch]);
 
-  // Функция для очистки сообщений
-  const handleLogout = () => {
-    Cookies.remove('token');
-    window.location.reload(); // Простой способ сбросить все стейты
-  };
 
   return (  
     <main className='LoginPage'>
       <section className='main'>
-        {token && (
-            <div className="bg-yellow-50 p-6 rounded-lg shadow-md space-y-4">
-              <h2 className="text-2xl font-semibold text-gray-700 mb-4">Управление токеном</h2>
-              <p className="break-all text-sm text-gray-700">
-                <span className="font-semibold">Ваш JWT:</span> 
-                {/* {token} */}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={handleLogout}
-                  className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200 ease-in-out transform hover:scale-105"
-                >
-                  Выйти
-                </button>
-              </div>
-
-              {userProfile && (
-                <div className="mt-4 p-4 bg-yellow-100 rounded-lg">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">Данные профиля:</h3>
-                  <pre className="text-gray-700 text-sm bg-yellow-200 p-3 rounded-md overflow-x-auto">
-                    {JSON.stringify(userProfile, null, 2)}
-                  </pre>
-                </div>
-              )}
-            </div>
-          )}
           <div className='LoginPage__modal'>
             <h1>Найти свою Совушку</h1>
             

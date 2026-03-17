@@ -50,8 +50,11 @@ export const mainApi = createApi({
     getTotalOnline: builder.query({
       query: (code) => `/global/getTotalOnline`,
     }),
-    getUserWithAchievements: builder.query({
-      query: (user_id) => `/users/getUserWithAchievements?user_id=${user_id}`,
+    getUserById: builder.query({
+      query: (user_id) => `/users/getUserById?user_id=${user_id}`,
+    }),
+    getAllUsers: builder.query({
+      query: (limit) => `/users/getAllUsers?limit=${limit}`,
     }),
   }),
 });

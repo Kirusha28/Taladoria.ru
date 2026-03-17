@@ -1,6 +1,6 @@
 .AchievementCard {
   width: 170px;
-  height: 250px;
+  height: 270px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,7 +38,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     border-radius: 6px;
     animation: WANDH 1s ease-in-out;
 
@@ -79,7 +79,7 @@
 
       span {
         font-weight: 600;
-        font-size: 8px;
+        font-size: 10px;
         letter-spacing: 0.01em;
         text-align: center;
         background: #ffffff70;

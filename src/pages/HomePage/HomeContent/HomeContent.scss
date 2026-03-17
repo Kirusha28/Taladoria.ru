@@ -45,8 +45,9 @@
     }
   }
   &__table {
+    min-width: 630px;
     &__head {
-      width: 630px;
+      width: 100%;
       height: fit-content;
 
       display: flex;
@@ -60,9 +61,10 @@
       }
     }
     &__headlines {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 20px 200px 95px  60px 60px 90px 120px 200px;
+      gap: 10px;
       padding-bottom: 15px;
 
       border-bottom: 0.82px solid #efefef;
@@ -84,9 +86,9 @@
       width: 100%;
       height: fit-content;
 
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      display: grid;
+      grid-template-columns: 20px 200px 95px  60px 60px 90px 120px 200px;
+      gap: 10px;
 
       
 
@@ -94,9 +96,7 @@
         width: 100%;
         height: fit-content;
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        display: contents;
 
         &__column {
           display: flex;
@@ -104,6 +104,24 @@
           justify-content: center;
           flex: 1;
           flex-basis: 85px;
+
+          .green {
+            content: '';
+            background: #0dff9e;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            margin-right: 10px;
+          }
+
+          .red {
+            content: '';
+            background: #FF720D;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            margin-right: 10px;
+          }
 
           .img {
             width: 30px;
@@ -125,26 +143,58 @@
             font-weight: 700;
             font-size: 14px;
             text-align: center;
-            color: #de3030;
+            color: #FF720D;
           }
           font-weight: 700;
           font-size: 14px;
           color: #0c0c0d;
 
           &__role {
-            width: 87px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            border-radius: 4px;
-            background: rgba(202, 53, 53, 0.2);
+            &_age {
+              width: 100%;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              
+              border-radius: 4px;
+              background: rgba(255, 114, 13, 0.2);
 
-            font-weight: 700;
-            font-size: 14px;
-            text-align: center;
-            color: #ca3535;
+              font-weight: 700;
+              font-size: 14px;
+              text-align: center;
+              color: #FF720D;
+            }
+            &_faculty {
+              width: 100%;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              
+              border-radius: 4px;
+              background: rgba(255, 114, 13, 0.2);
+
+              font-weight: 700;
+              font-size: 14px;
+              text-align: center;
+              color: #FF720D;
+            }
+            &_institute {
+              width: 100%;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              
+              border-radius: 4px;
+              background: rgba(255, 114, 13, 0.2);
+
+              font-weight: 700;
+              font-size: 14px;
+              text-align: center;
+              color: #FF720D;
+            }
           }
         }
       }

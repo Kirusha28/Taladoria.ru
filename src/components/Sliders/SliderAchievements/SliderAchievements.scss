@@ -39,6 +39,13 @@
       &__item {
         width: 100px;
         height: 100px;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+
+        }
 
         background: #292d32;
         border: 2px solid #eceef6;

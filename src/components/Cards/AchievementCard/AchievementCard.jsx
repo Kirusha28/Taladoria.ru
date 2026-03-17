@@ -1,24 +1,30 @@
 import React from 'react'
 import './AchievementCard.scss'
 
-const AchievementCard = ({ card }) => {
+const AchievementCard = ({ card, mode='full' }) => {
+  function DynamicImage({ imageName }) {
+    return <img src={`./assets/achievements/${imageName}`} alt={imageName} />;
+  }
+  console.log(card)
   return (
     <div className='AchievementCard' >
       <div className='AchievementCard__img'>
-        <img src={card.img} alt="" />
+        <DynamicImage imageName={card.imgPath} />
       </div>
-      <div className='AchievementCard__content'
+      {mode !== 'minimal' && <div className='AchievementCard__content'
         style={{ 
-          backgroundColor: card.backgroundColor,
-          border: '2px solid ' + card.borderColor,
+          backgroundColor: card?.status?.color+'33',
+          border: '2px solid ' + card?.status?.color,
         }}
       >
-        <h2>{card.title}</h2>
-        <p style={{color: card.textColor}}>{card.description}</p>
+        <h2 style={{color: card?.status?.color}}>{card.name}</h2>
+        <p style={{color: card?.status?.color}}>{card.description}</p>
         <div className='AchievementCard__content__date'>
-          <span style={{color: card.textColor, border: '1px solid ' + card.borderColor}}>{card.date}</span>
+          <span style={{color: card?.status?.color, border: '1px solid ' + card?.status?.color}}>
+            {card.obtained_at ? new Date(card.obtained_at).toLocaleDateString() : 'Никогда'}
+          </span>
         </div>
-      </div>
+      </div>}
     </div>
   )
 }
