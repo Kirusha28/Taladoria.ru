@@ -26,7 +26,7 @@ const DiscordCallback = () => {
                 Cookies.set('token', data.token, { expires: 7, secure: false });
                 // console.log(Cookies.get('token'))
                 // Обновляем данные пользователя в Redux
-                dispatch(setUser(data.user));
+                dispatch(setUser({...data.user, loggedIn: true}));
                 
                 console.log('Авторизация через RTK Query успешна');
                 navigate('/home');

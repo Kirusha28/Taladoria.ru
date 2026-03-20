@@ -56,6 +56,10 @@ export const mainApi = createApi({
     getAllUsers: builder.query({
       query: (limit) => `/users/getAllUsers?limit=${limit}`,
     }),
+    getTreeData: builder.query({
+      query: () => `/global/getTreeData`,
+    }),
+    
   }),
 });
 

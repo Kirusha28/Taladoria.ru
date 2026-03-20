@@ -1,0 +1,61 @@
+# 1. Редирект с HTTP на HTTPS
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name taladoria.ru www.taladoria.ru;
+
+    return 301 https://taladoria.ru$request_uri;
+}
+
+# 2. Основной блок SSL
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    server_name taladoria.ru www.taladoria.ru;
+
+    # Пути к файлам (проверьте, что они лежат в этой папке)
+    ssl_certificate /etc/nginx/ssl/taladoria/taladoria.fullchain.crt;
+    ssl_certificate_key /etc/nginx/ssl/taladoria/taladoria.key;
+
+    # Настройки безопасности
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+
+    # Ваш рабочий путь к фронтенду
+    root /var/www/html/Taladoria.ru/build;
+    index index.html index.htm index.php;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Бэкенд (Node.js API)
+    location /api/ {
+        proxy_pass http://localhost:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # PHP (для phpMyAdmin)
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+    }
+
+    location /phpmyadmin {
+        root /usr/share/;
+        index index.php index.html index.htm;
+        location ~ ^/phpmyadmin/(.+\.php)$ {
+            try_files $uri =404;
+            root /usr/share/;
+            fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+    }
+}

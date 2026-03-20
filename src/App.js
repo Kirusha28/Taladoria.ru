@@ -3,14 +3,17 @@ import './App.css';
 import './Animations.css'
 import { routerDeleverItems } from './routes';
 import { RouterProvider } from 'react-router-dom';
-import AuthProvider from './components/Wrappers/AppWrapper/AppWrapper';
+import AppWrapper from './components/Wrappers/AppWrapper/AppWrapper';
+import AuthProvider from './components/Auth/AuthProvider';
 
 function App() {
   return (
     <div className="App" >
-      <AuthProvider>
-        <RouterProvider router={routerDeleverItems} />
-      </AuthProvider>
+      <AppWrapper>
+        <AuthProvider>
+          <RouterProvider router={routerDeleverItems} />
+        </AuthProvider>
+      </AppWrapper>
     </div>
   );
 }

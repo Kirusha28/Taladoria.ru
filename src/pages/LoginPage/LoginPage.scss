@@ -62,3 +62,19 @@
     }
   }
 }
+
+@media (max-width: 768px) { 
+  .LoginPage {
+
+    &__modal {
+      width: 80vw;
+      height: fit-content;
+      padding: 15px;
+      box-sizing: border-box;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

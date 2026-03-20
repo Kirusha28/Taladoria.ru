@@ -32,10 +32,10 @@ const ProfileContent = () => {
         </ContentWrap>
         <ContentWrap>
           <p>Участий в ивентах</p>
-          <h1>6</h1>
+          <h1>0</h1>
         </ContentWrap>
         <ContentWrap>
-          <p>Регистрация в Хордовии</p>
+          <p>Регистрация в Таладории</p>
           <h1>{user?.register_date ? new Date(user?.register_date).toLocaleDateString() : 'Не родился' }</h1>
         </ContentWrap>
         <ContentWrap>

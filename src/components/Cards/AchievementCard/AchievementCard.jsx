@@ -2,14 +2,14 @@ import React from 'react'
 import './AchievementCard.scss'
 
 const AchievementCard = ({ card, mode='full' }) => {
-  function DynamicImage({ imageName }) {
-    return <img src={`./assets/achievements/${imageName}`} alt={imageName} />;
-  }
-  console.log(card)
+  
   return (
-    <div className='AchievementCard' >
+    <div className='AchievementCard' style={{
+      width: mode == 'full' ? '170px' : '143px',
+      height: mode == 'full' ? '270px' : '143px',
+    }}>
       <div className='AchievementCard__img'>
-        <DynamicImage imageName={card.imgPath} />
+        <img src={`./assets/achievements/${card.imgPath}`} alt={card.imgPath} />
       </div>
       {mode !== 'minimal' && <div className='AchievementCard__content'
         style={{ 

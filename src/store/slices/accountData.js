@@ -9,14 +9,21 @@ export const createAccountDataSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      return action.payload;
+      return { ...action.payload, status: 'idle', loggedIn: true };
     },
+    setLogout(state) {
+      return { ...initialState, status: 'idle', loggedIn: false };
+    },
+    setLoadingFinished(state) {
+      state.status = 'idle';
+    }
   },
 })
 
 export const {
   setUser,  
-
+  setLogout,
+  setLoadingFinished,
 } = createAccountDataSlice.actions
 export default createAccountDataSlice.reducer
 

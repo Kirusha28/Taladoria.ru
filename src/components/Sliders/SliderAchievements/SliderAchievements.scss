@@ -9,57 +9,125 @@
     font-size: 16px;
     letter-spacing: 0.01em;
     color: #343434;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &__slider {
     width: 100%;
     height: fit-content;
     gap: 25px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    &__back {
+    &__back,
+    &__next {
       height: 100px;
       display: flex;
       align-items: center;
-      transition: .5s ease-in-out;
-      :hover {
-        scale: 1.1;
+      transition: 0.3s ease;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      svg {
+        width: 24px;
+        height: 24px;
       }
     }
+
     &__display {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       width: 100%;
+      overflow: hidden;
 
       &__item {
         width: 100px;
         height: 100px;
         overflow: hidden;
+        background: #292d32;
+        border: 2px solid #eceef6;
+        border-radius: 6px;
+        flex-shrink: 0;
 
         img {
           width: 100%;
           height: 100%;
-
+          object-fit: cover;
         }
-
-        background: #292d32;
-        border: 2px solid #eceef6;
-        border-radius: 6px;
       }
     }
-    &__next {
-      height: 100px;
-      display: flex;
-      align-items: center;
-      transition: .5s ease-in-out;
-      :hover {
-        scale: 1.1;
+  }
+
+  &__dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+
+    &__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #ccc;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &.active {
+        background-color: #3bb77e;
       }
+
+      &:hover {
+        background-color: #999;
+      }
+    }
+  }
+}
+
+// Медиазапрос для мобильных устройств
+@media (max-width: 768px) {
+  .SliderAchievements {
+    &__slider {
+      gap: 10px;
+
+      &__back,
+      &__next {
+        height: 80px;
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      &__display {
+        gap: 8px;
+
+        &__item {
+          width: 70px;
+          height: 70px;
+        }
+      }
+    }
+
+    &__dots {
+      display: flex; // показываем точки на мобильных
     }
   }
 }

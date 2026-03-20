@@ -11,5 +11,7 @@ export const initialStateUser = {
   joined_at: null,
   last_voice_join_time: null,
   current_voice_channel: null,
-  email: null
+  email: null,
+  loggedIn: false,
+  status: 'loading', // 'loading' | 'idle' | 'failed'
 }

@@ -3,10 +3,10 @@ import './OtherBtn.scss'
 
 import { ReactComponent as OtherIcon } from '../../../assets/svg/sidebar/otherIcon.svg'
 
-const OtherBtn = () => {
+const OtherBtn = ({ sx={}, onClick=() => {}, children}) => {
   return (
-    <button className='OtherBtn'>
-      <OtherIcon width={'25px'} height={'25px'}/>
+    <button className='OtherBtn' style={sx} onClick={onClick}>
+      {children ? children : <OtherIcon width={'100%'} height={'100%'}/>}
     </button>
   )
 }
