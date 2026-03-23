@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
-import './AchievementsContent.scss'
+import './MyAchievementsContent.scss'
 import FilterBtn from '../../../components/Buttons/FilterBtn/FilterBtn'
 import AchievementCard from '../../../components/Cards/AchievementCard/AchievementCard'
 import { useSelector } from 'react-redux'
 import Switch from '../../../components/Switch/Switch'
-import { mainApi } from '../../../store/services/mainApi'
 
-const AchievementsContent = () => {
+const MyAchievementsContent = () => {
   const user = useSelector(state => state.accountData);
   const [cardMode, setCardMode] = useState('full');
-  const {data: achievements = {achievements: []}, isLoadingAchievments} = mainApi.useGetAllAchievementsQuery();
 
   return (
-    <section className='AchievementsContent'>
+    <section className='MyAchievementsContent'>
       <header className='AchievementsContent__header'>
         <FilterBtn />
         <Switch
@@ -25,8 +23,8 @@ const AchievementsContent = () => {
           borderColor="#d1d5db"
         />
       </header>
-      <main className='AchievementsContent__main'>
-        {isLoadingAchievments ? <div>Загрузка...</div> : achievements?.achievements?.map((achievement, index) => <AchievementCard 
+      <main className='MyAchievementsContent__main'>
+        {user?.achievements?.map((achievement, index) => <AchievementCard 
           card={achievement} 
           key={index}
           mode={cardMode}
@@ -36,4 +34,4 @@ const AchievementsContent = () => {
   )
 }
 
-export default AchievementsContent
+export default MyAchievementsContent

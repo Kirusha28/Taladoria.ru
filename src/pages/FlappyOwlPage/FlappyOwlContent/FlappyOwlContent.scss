@@ -1,0 +1,34 @@
+.FlappyOwlContent {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background-image: url('../../../../public/assets/background/treeBG.webp');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  backdrop-filter: brightness(0.8);
+
+  padding: 0px;
+  gap: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  header {
+    display: flex;
+    margin-bottom: 10px;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+  }
+
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+  }
+}

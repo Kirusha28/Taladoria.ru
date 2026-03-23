@@ -1,35 +1,35 @@
-# 1. Редирект с HTTP на HTTPS
+# 1. ОБЩИЙ РЕДИРЕКТ С HTTP НА HTTPS ДЛЯ ВСЕХ ДОМЕНОВ
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name taladoria.ru www.taladoria.ru;
+    server_name taladoria.ru www.taladoria.ru oi.taladoria.ru;
 
-    return 301 https://taladoria.ru$request_uri;
+    return 301 https://$host$request_uri;
 }
 
-# 2. Основной блок SSL
+# =========================================================
+# 2. САЙТ 1: ПОДДОМЕН (https://oi.taladoria.ru)
+# =========================================================
 server {
-    listen 443 ssl default_server;
-    listen [::]:443 ssl default_server;
-    server_name taladoria.ru www.taladoria.ru;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name oi.taladoria.ru;
 
-    # Пути к файлам (проверьте, что они лежат в этой папке)
     ssl_certificate /etc/nginx/ssl/taladoria/taladoria.fullchain.crt;
     ssl_certificate_key /etc/nginx/ssl/taladoria/taladoria.key;
 
-    # Настройки безопасности
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
 
-    # Ваш рабочий путь к фронтенду
-    root /var/www/html/Taladoria.ru/build;
-    index index.html index.htm index.php;
+    # ПУТЬ К ФАЙЛАМ ПЕРВОГО САЙТА (Например, новый билд)
+    root /var/www/html/Taladoria.ru/build; 
+    index index.html index.htm;
 
     location / {
         try_files $uri $uri/ /index.html;
     }
 
-    # Бэкенд (Node.js API)
+    # API для первого сайта (если нужно)
     location /api/ {
         proxy_pass http://localhost:4000;
         proxy_http_version 1.1;
@@ -37,11 +37,29 @@ server {
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+# =========================================================
+# 3. САЙТ 2: ОСНОВНОЙ ДОМЕН (https://taladoria.ru)
+# =========================================================
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    server_name taladoria.ru www.taladoria.ru;
+
+    ssl_certificate /etc/nginx/ssl/taladoria/taladoria.fullchain.crt;
+    ssl_certificate_key /etc/nginx/ssl/taladoria/taladoria.key;
+
+    # Главная страница основного домена (заглушка или другой контент)
+    root /var/www/html/;
+    index index.html index.php;
+
+    location / {
+        try_files $uri $uri/ /index.html;
     }
 
-    # PHP (для phpMyAdmin)
+    # --- PHP и phpMyAdmin оставляем в основном блоке ---
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;

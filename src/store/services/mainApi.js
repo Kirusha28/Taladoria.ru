@@ -47,6 +47,9 @@ export const mainApi = createApi({
     getTotalAchievements: builder.query({
       query: (code) => `/global/getTotalAchievements`,
     }),
+    getAllAchievements: builder.query({
+      query: (code) => `/global/getAllAchievements`,
+    }),
     getTotalOnline: builder.query({
       query: (code) => `/global/getTotalOnline`,
     }),

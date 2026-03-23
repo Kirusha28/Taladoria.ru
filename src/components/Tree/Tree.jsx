@@ -212,7 +212,7 @@ const Tree = ({data={}, isLoading=false}) => {
       setSelectedNode(prev => ({ ...prev, status: 'unlocked' })); 
     }
   };
-
+  console.log(selectedNode)
   return (
     <div className="achievement-tree-outer">
       <div className="achievement-tree-canvas" ref={containerRef} />
@@ -223,7 +223,12 @@ const Tree = ({data={}, isLoading=false}) => {
           <button className="close-btn" onClick={() => setSelectedNode(null)}>✖</button>
           
           {selectedNode.image ? (
-            <img src={selectedNode.image} alt={selectedNode.name} className="detail-image" />
+            <img 
+              src={selectedNode.image} 
+              alt={selectedNode.name} 
+              className="detail-image" 
+              onError={(e) => { e.target.src = './assets/owls/default.webp'; }}
+            />
           ) : (
             <div className="detail-placeholder">Без картинки</div>
           )}

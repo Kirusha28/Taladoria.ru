@@ -7,6 +7,8 @@ import LoginPage from './pages/LoginPage/LoginPage'
 import DiscordCallback from './components/DiscordCallback/DiscordCallback'
 import TreeOwlPage from './pages/TreeOwlPage/TreeOwlPage'
 import PrivateRoute from './components/Auth/PrivateRoute'
+import FlappyOwlPage from './pages/FlappyOwlPage/FlappyOwlPage'
+import MyAchievementsPage from './pages/MyAchievementsPage/MyAchievementsPage'
 
 export const routerDeleverItems = createBrowserRouter([
   {
@@ -25,11 +27,13 @@ export const routerDeleverItems = createBrowserRouter([
       { path: '/profile', element: <ProfilePage /> },
       { path: '/my', element: <ProfilePage /> },
       { path: '/myOwl', element: <ProfilePage /> },
+      { path: '/myAchievements', element: <MyAchievementsPage /> },
       { path: '/achievements', element: <AchievementsPage /> },
       { path: '/tree', element: <TreeOwlPage /> },
       { path: '/myСharacters', element: <TreeOwlPage /> },
       { path: '/events', element: <TreeOwlPage /> },
       { path: '/settings', element: <TreeOwlPage /> },
+      { path: '/flappyOwl', element: <FlappyOwlPage /> },
     ]
   },
   {
