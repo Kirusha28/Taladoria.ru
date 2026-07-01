@@ -1,7 +1,10 @@
 .AchievementsContent {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
 
   padding: 40px;
   gap: 20px;
@@ -31,7 +34,7 @@
     padding: 10px;
 
     main {
-      width: fit-content;
+      width: 100%;
       margin: 0 auto;
       justify-content: space-evenly;
     }

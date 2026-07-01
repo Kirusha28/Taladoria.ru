@@ -1,10 +1,15 @@
 import React from 'react'
 import './ContentWrap.scss'
 
-const ContentWrap = ({children, sx={}, title='', active=false}) => {
+const ContentWrap = ({children, sx={}, title='', active=false, fluid=false}) => {
+  const className = [
+    active ? 'ContentWrap__active' : 'ContentWrap',
+    fluid ? 'ContentWrap--fluid' : '',
+  ].filter(Boolean).join(' ')
+
   return (
     <div 
-      className={'ContentWrap'+ (active ? '__active' : '')}
+      className={className}
       title={title}
       style={sx}
     >

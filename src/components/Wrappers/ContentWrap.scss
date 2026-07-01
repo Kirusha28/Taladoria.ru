@@ -3,22 +3,41 @@
   flex-direction: column;
   width: fit-content;
   height: fit-content;
-  
+  box-sizing: border-box;
+
   gap: 10px;
   padding: 25px;
   border: 2px solid #eceef6;
   border-radius: 6px;
   background: #fff;
+
+  img {
+    border-radius: 8px;
+  }
+
+  &--fluid {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
 }
+
 .ContentWrap__active {
   display: flex;
   flex-direction: column;
   width: fit-content;
   height: fit-content;
-  
+  box-sizing: border-box;
+
   gap: 10px;
   padding: 25px;
   border: 2px solid #FF720D;
   border-radius: 6px;
   background: #FFE5D3;
+
+  &.ContentWrap--fluid {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
 }

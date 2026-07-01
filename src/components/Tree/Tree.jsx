@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Network } from 'vis-network/standalone';
 import './Tree.scss';
+import OtherBtn from '../Buttons/OtherBtn/OtherBtn';
+import { useNavigate } from 'react-router-dom';
 
 // 1. Расширенная структура данных (с картинками, формами и цветами)
 const initialData = {
@@ -49,6 +51,7 @@ const initialData = {
 };
 
 const Tree = ({data={}, isLoading=false}) => {
+  const navigate = useNavigate()
   const [achievements, setAchievements] = useState(data);
   const [selectedNode, setSelectedNode] = useState(null); // Стейт для панели "Подробнее"
   
@@ -62,42 +65,71 @@ const Tree = ({data={}, isLoading=false}) => {
   }, [data]);
 
   const getGraphData = () => {
-    const nodes = Object.values(achievements).map(ach => {
-      // Базовые свойства, которые есть у всех узлов
-      const node = {
+    const nodes = [];
+    const edges = [];
+
+    // 1. Сначала создаем основные узлы
+    Object.values(achievements).forEach(ach => {
+      nodes.push({
         id: ach.id,
         label: ach.name,
         group: ach.status,
-        level: ach.level,
+        level: ach.level || 0, // ГАРАНТИРУЕМ наличие уровня (дефолт 0)
         shape: ach.shape || 'dot',
-      };
-      console.log(node)
-      // Добавляем картинку ТОЛЬКО если она есть (никаких null!)
-      if (ach.image) {
-        node.image = ach.image;
-      }
+        image: ach.image || undefined,
+        color: ach.color || undefined,
+      });
 
-      // Добавляем кастомный цвет ТОЛЬКО если он есть
-      if (ach.color) {
-        node.color = ach.color;
-      }
-
-      return node;
-    });
-
-    const edges = [];
-    Object.values(achievements).forEach(ach => {
+      // 2. Разбираемся со связями
       ach.children.forEach(childId => {
-        if (achievements[childId]) {
-          const color = achievements[childId].status === 'unlocked' ? '#4ba4d4' : '#2c2c3e';
+        const childNode = achievements[childId];
+        if (!childNode) return;
+
+        const isUnlocked = childNode.status === 'unlocked';
+        const edgeColor = isUnlocked ? '#4ba4d4' : '#2c2c3e';
+        const edgeWidth = isUnlocked ? 3 : 1;
+
+        // Проверяем разницу уровней для создания "пространства"
+        const levelDiff = childNode.level - ach.level;
+
+        if (levelDiff > 1) {
+          // Создаем невидимый промежуточный узел, чтобы линия не шла "сквозь" другие узлы
+          const dummyId = `dummy_${ach.id}_${childId}`;
+          
+          nodes.push({
+            id: dummyId,
+            level: ach.level + 1, // ГАРАНТИРУЕМ уровень для призрака
+            shape: 'text',
+            label: '',
+            size: 0,
+            physics: false // Чтобы он не расталкивал соседей слишком сильно
+          });
+
+          // Линия от Родителя к Призраку
+          edges.push({
+            from: ach.id,
+            to: dummyId,
+            color: { color: edgeColor, opacity: 0.4 }, // Чуть бледнее для эстетики
+            width: edgeWidth,
+            arrows: { to: { enabled: false } }
+          });
+
+          // Линия от Призрака к Ребенку
+          edges.push({
+            from: dummyId,
+            to: childId,
+            color: { color: edgeColor, opacity: 0.8 },
+            width: edgeWidth
+          });
+
+        } else {
+          // Обычная прямая связь
           edges.push({ 
             from: ach.id, 
             to: childId, 
-            color: { color: color, opacity: 0.8 },
-            width: achievements[childId].status === 'unlocked' ? 3 : 1
+            color: { color: edgeColor, opacity: 0.8 },
+            width: edgeWidth
           });
-        } else {
-          console.warn(`Узел ${ach.id} ссылается на несуществующего ребенка ${childId}`);
         }
       });
     });
@@ -126,7 +158,7 @@ const Tree = ({data={}, isLoading=false}) => {
         width: 2,
         color: { color: '#4a4a6a', highlight: '#4ba4d4' },
         arrows: { to: { enabled: true, scaleFactor: 0.3 } },
-        smooth: { type: 'cubicBezier', forceDirection: 'vertical', roundness: 0.5 }
+        smooth: { type: 'cubicBezier', forceDirection: 'vertical', roundness: 0.25 }
       },
       groups: {
         unlocked: {
@@ -151,9 +183,12 @@ const Tree = ({data={}, isLoading=false}) => {
         hierarchical: {
           direction: 'DU',
           sortMethod: 'directed',
-          levelSeparation: 300, //standart 180
-          nodeSpacing: 150,
-          treeSpacing: 200
+          levelSeparation: 250, // Расстояние между этажами
+          nodeSpacing: 250,     // УВЕЛИЧИВАЕМ расстояние по горизонтали, чтобы узлам не было тесно
+          treeSpacing: 300,     // Расстояние между отдельными ветками
+          blockShifting: true,  // Важно! Группирует узлы одной ветви вместе
+          edgeMinimization: true, // Важно! Алгоритм попытается распутать линии
+          parentCentralization: true // Центрирует родителя ровно над/под детьми
         }
       },
       physics: {
@@ -239,6 +274,10 @@ const Tree = ({data={}, isLoading=false}) => {
           {selectedNode.status === 'locked' && (
              <button className="unlock-btn" onClick={handleUnlock}>Засветить</button>
           )}
+          <button 
+            className="profile-btn" 
+            onClick={() => navigate(`/profile/${selectedNode.id}`)}
+          >Профиль</button>
         </div>
       )}
     </div>

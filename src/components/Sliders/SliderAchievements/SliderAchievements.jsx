@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import './SliderAchievements.scss';
 import { ReactComponent as ArrowIcon } from '../../../assets/svg/slider/arrowIcon.svg';
 
-const SliderAchievements = () => {
-  const userAchievements = useSelector(state => state.accountData?.achievements || []);
+const SliderAchievements = ({ list=null, linkUrl='./assets/achievements/' }) => {
+  const userAchievementsSelector = useSelector(state => state.accountData?.achievements || []);
+  const userAchievements = list || userAchievementsSelector;
   const [silderPos, setSilderPos] = useState(0);
   const [visibleItemsCount, setVisibleItemsCount] = useState(3); // дефолт для SSR
   const [isMobile, setIsMobile] = useState(false);
@@ -97,7 +98,7 @@ const SliderAchievements = () => {
         <div className="SliderAchievements__slider__display" ref={displayRef}>
           {visibleAchievements.map((item, index) => (
             <div className="SliderAchievements__slider__display__item" key={index}>
-              <DynamicImage imageName={item.imgPath} />
+              <DynamicImage imageName={item.imgPath} linkUrl={linkUrl } />
             </div>
           ))}
         </div>
@@ -130,8 +131,8 @@ const SliderAchievements = () => {
 };
 
 // Компонент для отображения изображения (можно вынести в отдельный файл)
-const DynamicImage = ({ imageName }) => {
-  return <img src={`./assets/achievements/${imageName}`} alt={imageName} />;
+const DynamicImage = ({ imageName, linkUrl }) => {
+  return <img src={linkUrl + `${imageName}`} alt={imageName} />;
 };
 
 export default SliderAchievements;

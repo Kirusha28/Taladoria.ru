@@ -56,6 +56,9 @@ export const mainApi = createApi({
     getUserById: builder.query({
       query: (user_id) => `/users/getUserById?user_id=${user_id}`,
     }),
+    getUserByIdOrUsername: builder.query({
+      query: (user_id) => `/users/getUserByIdOrUsername?user=${user_id}`,
+    }),
     getAllUsers: builder.query({
       query: (limit) => `/users/getAllUsers?limit=${limit}`,
     }),

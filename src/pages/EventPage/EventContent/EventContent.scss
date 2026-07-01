@@ -1,0 +1,131 @@
+.EventContent {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  min-height: calc(100vh - 80px);
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  .page-title {
+    color: #fff;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: 260px repeat(7, 1fr);
+    gap: 6px;
+    min-width: 900px;
+
+    &__header {
+      display: contents;
+    }
+
+    &__row {
+      display: contents;
+    }
+
+    &__cell {
+      background-color: #f5f7fa;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 60px;
+      font-size: 14px;
+      font-weight: 500;
+
+      &--empty {
+        background-color: transparent;
+      }
+
+      &--day {
+        background-color: #ffffff;
+        font-weight: 600;
+        padding: 10px;
+
+        .day-week {
+          font-size: 16px;
+        }
+
+        .day-date {
+          font-size: 13px;
+          opacity: 0.7;
+        }
+
+        .day-badge {
+          font-size: 11px;
+          background: #FF720D;
+          color: white;
+          padding: 2px 8px;
+          border-radius: 10px;
+          margin-top: 2px;
+        }
+      }
+
+      &--today {
+        border: 2px solid #FF720D;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+      }
+
+      &--event {
+        background-color: #ffffff;
+        justify-content: flex-start;
+        flex-direction: row;
+        gap: 12px;
+        padding: 12px 16px;
+
+        .event-icon {
+          font-size: 22px;
+        }
+
+        .event-info {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+
+          .event-name {
+            font-weight: 600;
+            font-size: 14px;
+          }
+
+          .event-slots {
+            font-size: 12px;
+            opacity: 0.7;
+          }
+        }
+      }
+
+      &--time {
+        &.has-event {
+          background-color: #ec904e;
+          font-weight: 600;
+        }
+
+        .time {
+          font-size: 15px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .event-footer {
+    margin-top: 25px;
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+
+    p {
+      margin: 0;
+    }
+  }
+}

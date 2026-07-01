@@ -1,11 +1,13 @@
 .HomePage {
-
   &__content {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     height: 100%;
+    overflow: hidden;
 
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: stretch;
+    justify-content: flex-start;
   }
 }

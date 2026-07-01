@@ -5,7 +5,7 @@ import NotificationBtn from '../../Buttons/NotificationBtn/NotificationBtn'
 const MainHeader = () => {
   return (
     <header className='MainHeader'>
-      <NotificationBtn />
+      {/* <NotificationBtn /> */}
     </header>
   )
 }

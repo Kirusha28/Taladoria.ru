@@ -2,10 +2,6 @@ import React, { useEffect } from 'react'
 import './HomeContent.scss'
 
 import ContentWrap from '../../../components/Wrappers/ContentWrap'
-import DisplayGrowth from '../../../components/Displays/DisplayGrowth/DisplayGrowth'
-import FilterBtn from '../../../components/Buttons/FilterBtn/FilterBtn'
-
-import listUsers from '../../../constants/listUsers'
 import { mainApi } from '../../../store/services/mainApi'
 import { useSelector } from 'react-redux'
 import { TaladoriansTable } from './../../HomePage/HomeContent/TaladoriansTable/TaladoriansTable';
@@ -27,35 +23,26 @@ const HomeContent = () => {
   return (
     <section className='HomeContent'>
       <div className='HomeContent__dashboard'>
-        <ContentWrap sx={{ flex: 1,}}>
-          <h3>СОВобщество 
-            {/* <DisplayGrowth percent={10.0}/> */}
-          </h3>
+        <ContentWrap fluid>
+          <h3>СОВобщество</h3>
           <h1>{totalUsersCount?.totalUsersCount}</h1>
           <p>участников</p>
         </ContentWrap>
-        <ContentWrap sx={{ flex: 1,}}>
-          <h3>Достижений 
-            {/* <DisplayGrowth percent={22.0}/> */}
-          </h3>
+        <ContentWrap fluid>
+          <h3>Достижений</h3>
           <h1>{totalAchievements?.totalAchievements}</h1>
           <p>добавлено</p>
         </ContentWrap>
-        <ContentWrap sx={{ flex: 1,}}>
-          <h3>Общее время в гс 
-            {/* <DisplayGrowth percent={12.0}/> */}
-          </h3>
+        <ContentWrap fluid>
+          <h3>Общее время в гс</h3>
           <h1>{(totalMinutes?.totalVoiceTime / 60)?.toFixed(0)}</h1>
           <p>часов</p>
         </ContentWrap>
-        <ContentWrap sx={{ flex: 1,}}>
-          <h3>Онлайн в гс 
-            {/* <DisplayGrowth percent={-7.0}/> */}
-          </h3>
+        <ContentWrap fluid>
+          <h3>Онлайн в гс</h3>
           <h1>{totalOnline?.totalOnline}</h1>
           <p>человека</p>
         </ContentWrap>
-        
       </div>
       <TaladoriansTable 
         usersList={usersList?.users}

@@ -6,9 +6,9 @@ import { ReactComponent as MyOwlIcon } from '../assets/svg/sidebar/MyOwlIcon.svg
 import { ReactComponent as OwlTreeIcon } from '../assets/svg/sidebar/OwlTreeIcon.svg'
 import { ReactComponent as MyAchievmentsIcon } from '../assets/svg/sidebar/myAchivments.svg'
 import { ReactComponent as AllAchievmentsIcon } from '../assets/svg/sidebar/allAchivments.svg'
-import { ReactComponent as StatsIcon } from '../assets/svg/sidebar/statsNavIcon.svg'
 import { ReactComponent as MyCharacterIcon } from '../assets/svg/sidebar/myCharacterNavIcon.svg'
 import { ReactComponent as EventsIcon } from '../assets/svg/sidebar/eventsNavIcon.svg'
+import { ReactComponent as MiniGamesIcon } from '../assets/svg/sidebar/miniGamesNavIcon.svg'
 
 const sidebartabs = [
   {
@@ -28,27 +28,22 @@ const sidebartabs = [
         icon: ProfileIcon,
       },
       {
-        title: 'Моя сова',
-        path: '/myOwl',
-        icon: MyOwlIcon,
-      },
-      {
         title: 'Мои достижения',
         path: '/myAchievements',
         icon: MyAchievmentsIcon,
       },
-      {
-        title: 'Все достижения',
-        path: '/achievements',
-        icon: AllAchievmentsIcon,
-      },
     ],
   },
-
   {
     title: 'Совиное древо',
     path: '/tree',
     icon: OwlTreeIcon,
+    minitabs: [],
+  },
+  {
+    title: 'Все достижения',
+    path: '/achievements',
+    icon: AllAchievmentsIcon,
     minitabs: [],
   },
   // {
@@ -61,6 +56,12 @@ const sidebartabs = [
     title: 'Мероприятия',
     path: '/events',
     icon: EventsIcon,
+    minitabs: [],
+  },
+  {
+    title: 'Мини-игры',
+    path: '/miniGames',
+    icon: MiniGamesIcon,
     minitabs: [],
   },
 ]

@@ -96,12 +96,12 @@ const SideBar = () => {
           <SideBarItem key={index} tab={tab} location={location}/>
         )}
       </nav>
-      <SideBarBtnUI path={'/settings'} active={location === '/settings' ? 'active' : ''} sx={{marginTop: 'auto'}}>
+      {/* <SideBarBtnUI path={'/settings'} active={location === '/settings' ? 'active' : ''} sx={{marginTop: 'auto'}}>
         <div style={{ width: '29px', height: '29px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <SettingsIcon width={'25px'} height={'25px'}/>
         </div>
         <p>Настройки</p>
-      </SideBarBtnUI>
+      </SideBarBtnUI> */}
     </aside>
   )
 }

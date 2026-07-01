@@ -3,12 +3,21 @@ import './LoginPage.scss'
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux'
 import { mainApi } from './../../store/services/mainApi';
+import { useAuth } from '../../components/Auth/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { isAuthenticated, isLoading } = useAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/home');
+    }
+  }, [isAuthenticated])
 
   const token = Cookies.get('token');
-  const { data: userProfile, error, isLoading, refetch } = mainApi.useGetUserProfileQuery(token, {
+  const { data: userProfile, error, refetch } = mainApi.useGetUserProfileQuery(token, {
     skip: !token,
   });
 
