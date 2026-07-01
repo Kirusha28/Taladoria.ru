@@ -2,7 +2,7 @@ import React from 'react'
 import './UserContent.scss'
 import ContentWrap from '../../../components/Wrappers/ContentWrap'
 import SliderAchievements from '../../../components/Sliders/SliderAchievements/SliderAchievements'
-import { useSelector } from 'react-redux'
+import { LightboxImage } from '../../../components/ImageLightbox/ImageLightbox'
 import { mainApi } from '../../../store/services/mainApi'
 import { useParams } from 'react-router-dom'
 
@@ -15,7 +15,13 @@ const UserContent = () => {
     <section className='UserContent'>
       {!isLoadingUser && <div className='UserContent__information'>
         <ContentWrap >
-          <img src={userData?.avatar} alt="" height={'65px'} width={'65px'} />
+          <LightboxImage
+            src={userData?.avatar}
+            alt={userData?.username || 'Аватар'}
+            caption={userData?.username}
+            height='65px'
+            width='65px'
+          />
           <h1 style={{color: '#FF720D', textWrap: 'nowrap'}}>
             {userData?.username ? userData?.username : '404 - Имя не найдено'}
           </h1>

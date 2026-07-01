@@ -100,10 +100,11 @@ const MyAchievementsContent = () => {
       )}
 
       <main className='MyAchievementsContent__main'>
-        {filteredAchievements?.length > 0 && filteredAchievements?.map((achievement, index) => <AchievementCard 
-          card={achievement} 
+        {filteredAchievements?.length > 0 && filteredAchievements?.map((achievement, index) => <AchievementCard
+          card={achievement}
           key={index}
           mode={cardMode}
+          index={index}
         />)}
       </main>
     </section>

@@ -125,6 +125,7 @@ $table-grid-columns:
         justify-content: center;
         min-width: 0;
         padding: 0 2px;
+        gap: 4px;
 
         font-weight: 500;
         font-size: 12px;
@@ -134,12 +135,40 @@ $table-grid-columns:
         text-align: center;
         word-break: break-word;
 
-        &:nth-child(1),
-        &:nth-child(2) {
+        &--align-start {
           justify-content: flex-start;
           text-align: left;
         }
+
+        &--sortable {
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          font: inherit;
+          color: inherit;
+          transition: color 0.2s ease, background 0.2s ease;
+          border-radius: 6px;
+          padding: 4px 2px;
+
+          &:hover {
+            color: #ff720d;
+            background: rgba(255, 114, 13, 0.08);
+          }
+        }
+
+        &--sort-asc,
+        &--sort-desc {
+          color: #ff720d;
+          font-weight: 700;
+        }
       }
+    }
+
+    &__sort-indicator {
+      flex-shrink: 0;
+      font-size: 10px;
+      opacity: 0.75;
+      line-height: 1;
     }
 
     &__headlines--mobile,
@@ -204,6 +233,7 @@ $table-grid-columns:
             justify-content: center;
             margin-right: 8px;
             flex-shrink: 0;
+            cursor: zoom-in;
           }
 
           p {
@@ -225,8 +255,7 @@ $table-grid-columns:
 
           &__role {
             &_age,
-            &_faculty,
-            &_institute {
+            &_faculty {
               width: 100%;
               max-width: 100%;
               min-height: 24px;
@@ -249,6 +278,34 @@ $table-grid-columns:
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
+            }
+
+            &_institute {
+              width: 100%;
+              max-width: 100%;
+              min-height: 32px;
+              padding: 4px 6px;
+              box-sizing: border-box;
+
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              line-clamp: 2;
+
+              border-radius: 4px;
+              background: rgba(255, 114, 13, 0.15);
+
+              font-weight: 700;
+              font-size: 11px;
+              line-height: 1.25;
+              text-align: center;
+              color: #ff720d;
+
+              white-space: normal;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-word;
+              hyphens: auto;
             }
           }
         }

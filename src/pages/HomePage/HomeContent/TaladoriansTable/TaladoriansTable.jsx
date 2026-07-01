@@ -5,11 +5,64 @@ import useMediaQuery from '../../../../hooks/useMediaQuery';
 import './TaladoriansTable.scss';
 import { useNavigate } from 'react-router-dom';
 import DualRangeSlider from '../../../../components/DualRangeSlider/DualRangeSlider';
+import { useImageLightbox } from '../../../../components/ImageLightbox/ImageLightbox';
+
+const TABLE_COLUMNS = [
+  { key: 'rank', label: '#', align: 'start' },
+  { key: 'nickname', label: 'Никнейм', align: 'start' },
+  { key: 'status', label: 'Статус', align: 'center', mobile: false },
+  { key: 'total_voice_minutes', label: 'Общее время' },
+  { key: 'week_voice_minutes', label: '+ за неделю', mobile: false },
+  { key: 'solo_voice_minutes', label: 'SOLO время', shortLabel: 'SOLO', mobile: false },
+  { key: 'coop_voice_minutes', label: 'Co-op', mobile: false },
+  { key: 'mmo_voice_minutes', label: 'MMO', mobile: false },
+  { key: 'role_age', label: 'Этап', mobile: false },
+  { key: 'role_faculty', label: 'Факультет', mobile: false },
+  { key: 'role_institute', label: 'Роль', mobile: false },
+];
+
+const getSortValue = (key, user, topRankMap) => {
+  switch (key) {
+    case 'rank':
+      return topRankMap.get(user.user_id) ?? Number.MAX_SAFE_INTEGER;
+    case 'nickname':
+      return (user.nickname || '').toLowerCase();
+    case 'status':
+      return user.status ? 1 : 0;
+    case 'total_voice_minutes':
+      return Number(user.total_voice_minutes) || 0;
+    case 'week_voice_minutes':
+      return Number(user.week_voice_minutes) || 0;
+    case 'solo_voice_minutes':
+      return Number(user.solo_voice_minutes) || 0;
+    case 'coop_voice_minutes':
+      return Number(user.coop_voice_minutes) || 0;
+    case 'mmo_voice_minutes':
+      return Number(user.mmo_voice_minutes) || 0;
+    case 'role_age':
+      return (user.role_age?.name || '').toLowerCase();
+    case 'role_faculty':
+      return (user.role_faculty?.name || '').toLowerCase();
+    case 'role_institute':
+      return (user.role_institute?.name || '').toLowerCase();
+    default:
+      return 0;
+  }
+};
+
+const compareSortValues = (a, b) => {
+  if (typeof a === 'number' && typeof b === 'number') {
+    return a - b;
+  }
+  return String(a ?? '').localeCompare(String(b ?? ''), 'ru', { numeric: true, sensitivity: 'base' });
+};
+
 // Ваши остальные импорты (ContentWrap, FilterBtn и т.д.)
 
 export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentUserId }) => {
   const mobileView = useMediaQuery('(max-width: 768px)');
   const navigate = useNavigate();
+  const { openLightbox } = useImageLightbox();
   // Состояние для пагинации
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
@@ -27,6 +80,15 @@ export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentU
     timeRangeMMO: { min: 0, max: null },
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: null, order: null });
+
+  const topRankMap = useMemo(() => {
+    const map = new Map();
+    (usersList || []).forEach((user, index) => map.set(user.user_id, index + 1));
+    return map;
+  }, [usersList]);
+
+  const getTopRank = (user) => topRankMap.get(user?.user_id) ?? '—';
 
   // Собираем уникальные значения для фильтров из общего списка
   const filterOptions = useMemo(() => {
@@ -93,8 +155,20 @@ export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentU
     });
   }, [usersList, filters, timeRangeBounds]);
 
-  // Заменяем allUsers на filteredUsers для расчетов
-  const allUsers = filteredUsers; 
+  const sortedUsers = useMemo(() => {
+    if (!sortConfig.key || !sortConfig.order) {
+      return filteredUsers;
+    }
+
+    return [...filteredUsers].sort((userA, userB) => {
+      const valueA = getSortValue(sortConfig.key, userA, topRankMap);
+      const valueB = getSortValue(sortConfig.key, userB, topRankMap);
+      const comparison = compareSortValues(valueA, valueB);
+      return sortConfig.order === 'asc' ? comparison : -comparison;
+    });
+  }, [filteredUsers, sortConfig, topRankMap]);
+
+  const allUsers = sortedUsers;
   const totalPages = Math.ceil(allUsers.length / itemsPerPage);
   
   // Сброс страницы при смене фильтра
@@ -178,6 +252,52 @@ export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentU
     setCurrentPage(1);
   };
 
+  const handleSortClick = (columnKey) => {
+    setSortConfig(prev => {
+      if (prev.key !== columnKey) {
+        return { key: columnKey, order: 'asc' };
+      }
+      if (prev.order === 'asc') {
+        return { key: columnKey, order: 'desc' };
+      }
+      return { key: null, order: null };
+    });
+    setCurrentPage(1);
+  };
+
+  const visibleColumns = TABLE_COLUMNS.filter(column => mobileView ? column.mobile !== false : true);
+
+  const renderSortIndicator = (columnKey) => {
+    if (sortConfig.key !== columnKey) return '↕';
+    if (sortConfig.order === 'asc') return '↑';
+    if (sortConfig.order === 'desc') return '↓';
+    return '↕';
+  };
+
+  const renderTableHeadlines = () => (
+    <div className={`HomeContent__table__headlines${mobileView ? ' HomeContent__table__headlines--mobile' : ''}`}>
+      {visibleColumns.map(column => (
+        <button
+          key={column.key}
+          type='button'
+          className={[
+            'HomeContent__table__headlines__column',
+            'HomeContent__table__headlines__column--sortable',
+            column.align === 'start' ? 'HomeContent__table__headlines__column--align-start' : '',
+            sortConfig.key === column.key && sortConfig.order ? `HomeContent__table__headlines__column--sort-${sortConfig.order}` : '',
+          ].filter(Boolean).join(' ')}
+          onClick={() => handleSortClick(column.key)}
+          aria-label={`Сортировка: ${column.label}`}
+        >
+          <span>{mobileView && column.shortLabel ? column.shortLabel : column.label}</span>
+          <span className='HomeContent__table__sort-indicator' aria-hidden='true'>
+            {renderSortIndicator(column.key)}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+
   // Конфиг для рендера всех полей времени (чтобы не дублировать код)
   const timeFiltersConfig = [
     { key: 'timeRange', label: 'Общее время (часы)', step: 1 },
@@ -186,6 +306,15 @@ export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentU
     { key: 'timeRangeCoop', label: 'Co-op время (часы)', step: 1 },
     { key: 'timeRangeMMO', label: 'MMO время (часы)', step: 1 },
   ];
+
+  const handleAvatarOpen = (event, user) => {
+    event.stopPropagation();
+    openLightbox({
+      src: user?.avatar,
+      alt: user?.nickname || 'Аватар',
+      caption: user?.nickname,
+    });
+  };
 
   // Выносим рендер строки в отдельную функцию во избежание дублирования кода
   const renderUserRow = (user, rank, isPinned = false) =>  (mobileView ? <div 
@@ -199,7 +328,9 @@ export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentU
         style={{ flex: 10, justifyContent: 'flex-start'}}
         onClick={() => navigate(`/profile/${user?.user_id}`)}  
       >
-        <div className='img'><img src={user?.avatar} alt="" width={'100%'} height={'100%'}/></div>
+        <div className='img' onClick={(event) => handleAvatarOpen(event, user)}>
+          <img src={user?.avatar} alt="" width={'100%'} height={'100%'}/>
+        </div>
         <p>{user?.status ? 
           <div className='green'></div> 
         : <div className='red'></div>}{user?.nickname}</p>
@@ -219,7 +350,9 @@ export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentU
         style={{ flex: 10, justifyContent: 'flex-start'}}
         onClick={() => navigate(`/profile/${user?.user_id}`)}  
       >
-        <div className='img'><img src={user?.avatar} alt="" width={'100%'} height={'100%'}/></div>
+        <div className='img' onClick={(event) => handleAvatarOpen(event, user)}>
+          <img src={user?.avatar} alt="" width={'100%'} height={'100%'}/>
+        </div>
         <p>{user?.nickname}</p>
       </div>
       <div className='HomeContent__table__list__item__column'>
@@ -339,36 +472,14 @@ export const TaladoriansTable = ({ usersList, isLoadingUsersList=false, currentU
           )}
           
           <div className='HomeContent__table__scroll'>
-          {mobileView ? 
-          <div className='HomeContent__table__headlines HomeContent__table__headlines--mobile'>
-            <div className='HomeContent__table__headlines__column'>#</div>
-            <div className='HomeContent__table__headlines__column'>Никнейм</div>
-            <div className='HomeContent__table__headlines__column'>Общее время</div>
-          </div>
-          : <div className='HomeContent__table__headlines'>
-            <div className='HomeContent__table__headlines__column'>#</div>
-            <div className='HomeContent__table__headlines__column'>Никнейм</div>
-            <div className='HomeContent__table__headlines__column'>Статус</div>
-            <div className='HomeContent__table__headlines__column'>Общее время</div>
-            <div className='HomeContent__table__headlines__column'>+ за неделю</div>
-            <div className='HomeContent__table__headlines__column'>SOLO</div>
-            <div className='HomeContent__table__headlines__column'>Co-op</div>
-            <div className='HomeContent__table__headlines__column'>MMO</div>
-            <div className='HomeContent__table__headlines__column'>Этап</div>
-            <div className='HomeContent__table__headlines__column'>Факультет</div>
-            <div className='HomeContent__table__headlines__column'>Роль</div>
-          </div>}
-          
+          {renderTableHeadlines()}
           <div className={`HomeContent__table__list${mobileView ? ' HomeContent__table__list--mobile' : ''}`}>
             {/* 1. Рендерим первые 15 (или больше) пользователей */}
-            {visibleUsers.map((user, index) => renderUserRow(user, startIndex + index + 1))}
+            {visibleUsers.map((user) => renderUserRow(user, getTopRank(user)))}
 
-            {/* 2. Если мы не вошли в текущий видимый топ — рендерим себя в самом низу */}
             {!isCurrentUserVisible && currentUserIndex !== -1 && (
               <>
-                
-                {/* Передаем индекс + 1 как реальное место в топе */}
-                {renderUserRow(allUsers[currentUserIndex], currentUserIndex + 1, true)}
+                {renderUserRow(allUsers[currentUserIndex], getTopRank(allUsers[currentUserIndex]), true)}
               </>
             )}
           </div>

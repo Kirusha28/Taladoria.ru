@@ -52,12 +52,12 @@ const sidebartabs = [
   //   icon: EventsIcon,
   //   minitabs: [],
   // },
-  {
-    title: 'Мероприятия',
-    path: '/events',
-    icon: EventsIcon,
-    minitabs: [],
-  },
+  // {
+  //   title: 'Мероприятия',
+  //   path: '/events',
+  //   icon: EventsIcon,
+  //   minitabs: [],
+  // },
   {
     title: 'Мини-игры',
     path: '/miniGames',

@@ -5,13 +5,16 @@ import { routerDeleverItems } from './routes';
 import { RouterProvider } from 'react-router-dom';
 import AppWrapper from './components/Wrappers/AppWrapper/AppWrapper';
 import AuthProvider from './components/Auth/AuthProvider';
+import { ImageLightboxProvider } from './components/ImageLightbox/ImageLightbox';
 
 function App() {
   return (
     <div className="App" >
       <AppWrapper>
         <AuthProvider>
-          <RouterProvider router={routerDeleverItems} />
+          <ImageLightboxProvider>
+            <RouterProvider router={routerDeleverItems} />
+          </ImageLightboxProvider>
         </AuthProvider>
       </AppWrapper>
     </div>

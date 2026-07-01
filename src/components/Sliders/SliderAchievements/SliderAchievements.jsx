@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import './SliderAchievements.scss';
 import { ReactComponent as ArrowIcon } from '../../../assets/svg/slider/arrowIcon.svg';
+import { useImageLightbox } from '../../ImageLightbox/ImageLightbox';
 
 const SliderAchievements = ({ list=null, linkUrl='./assets/achievements/' }) => {
   const userAchievementsSelector = useSelector(state => state.accountData?.achievements || []);
@@ -97,8 +98,8 @@ const SliderAchievements = ({ list=null, linkUrl='./assets/achievements/' }) => 
 
         <div className="SliderAchievements__slider__display" ref={displayRef}>
           {visibleAchievements.map((item, index) => (
-            <div className="SliderAchievements__slider__display__item" key={index}>
-              <DynamicImage imageName={item.imgPath} linkUrl={linkUrl } />
+            <div className="SliderAchievements__slider__display__item" key={item.id || item.imgPath || index}>
+              <DynamicImage achievement={item} linkUrl={linkUrl} />
             </div>
           ))}
         </div>
@@ -131,8 +132,24 @@ const SliderAchievements = ({ list=null, linkUrl='./assets/achievements/' }) => 
 };
 
 // Компонент для отображения изображения (можно вынести в отдельный файл)
-const DynamicImage = ({ imageName, linkUrl }) => {
-  return <img src={linkUrl + `${imageName}`} alt={imageName} />;
+const DynamicImage = ({ achievement, linkUrl }) => {
+  const { openLightbox } = useImageLightbox();
+  const imageName = achievement?.imgPath;
+  const achievementName = achievement?.name || imageName;
+  const src = `${linkUrl}${imageName}`;
+
+  return (
+    <button
+      type='button'
+      className='SliderAchievements__image-btn'
+      onClick={() => openLightbox({ src, alt: achievementName, caption: achievementName })}
+      aria-label={`Открыть достижение ${achievementName}`}
+      title={achievementName}
+    >
+      <img src={src} alt={achievementName} />
+      <span className='SliderAchievements__image-btn-tooltip'>{achievementName}</span>
+    </button>
+  );
 };
 
 export default SliderAchievements;

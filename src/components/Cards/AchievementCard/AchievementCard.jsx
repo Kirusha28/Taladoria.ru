@@ -1,12 +1,23 @@
 import React from 'react'
 import './AchievementCard.scss'
+import { useImageLightbox } from '../../ImageLightbox/ImageLightbox'
 
 const AchievementCard = ({ card, mode = 'full', index = 0 }) => {
+  const { openLightbox } = useImageLightbox()
   const accent = card?.status?.color || '#FF720D'
   const isObtained = Boolean(card?.obtained_at)
+  const imageSrc = `./assets/achievements/${card.imgPath}`
   const metaLabel = card?.obtained_at
     ? new Date(card.obtained_at).toLocaleDateString()
     : `Есть у ${card?.usersCount ?? 0}`
+
+  const handleImageOpen = () => {
+    openLightbox({
+      src: imageSrc,
+      alt: card.name || card.imgPath,
+      caption: card.name,
+    })
+  }
 
   return (
     <article
@@ -28,10 +39,15 @@ const AchievementCard = ({ card, mode = 'full', index = 0 }) => {
           <span /><span /><span />
         </div>
 
-        <div className='AchievementCard__media'>
+        <button
+          type='button'
+          className='AchievementCard__media'
+          onClick={handleImageOpen}
+          aria-label={`Открыть достижение ${card.name || ''}`}
+        >
           <div className='AchievementCard__shine' aria-hidden='true' />
           <img
-            src={`./assets/achievements/${card.imgPath}`}
+            src={imageSrc}
             alt={card.name || card.imgPath}
             loading='lazy'
           />
@@ -39,7 +55,7 @@ const AchievementCard = ({ card, mode = 'full', index = 0 }) => {
           {card?.status?.name && (
             <span className='AchievementCard__rarity'>{card.status.name}</span>
           )}
-        </div>
+        </button>
 
         {mode !== 'minimal' && (
           <div className='AchievementCard__body'>

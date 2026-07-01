@@ -127,10 +127,11 @@ const AchievementsContent = () => {
       <main className='AchievementsContent__main'>
         {isLoadingAchievments ? <div>Загрузка...</div> : filteredAchievements.length > 0 ? (
           filteredAchievements.map((achievement, index) => (
-            <AchievementCard 
-              card={achievement} 
+            <AchievementCard
+              card={achievement}
               key={achievement.id || index}
               mode={cardMode}
+              index={index}
             />
           ))
         ) : (
