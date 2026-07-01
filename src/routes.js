@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter, Navigate, redirect } from 'react-router-dom'
 import React from 'react'
 import HomePage from './pages/HomePage/HomePage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
@@ -43,5 +43,12 @@ export const routerDeleverItems = createBrowserRouter([
   {
     path: '/auth/discord/callback', 
     element: <DiscordCallback />,
+  },
+  {
+    path: '/api/auth/discord/callback',
+    loader: ({ request }) => {
+      const search = new URL(request.url).search
+      return redirect(`/auth/discord/callback${search}`)
+    },
   },
 ]);
